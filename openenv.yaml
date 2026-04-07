@@ -1,0 +1,85 @@
+---
+title: Data Cleaning Environment
+emoji: 🧹
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
+
+name: data-cleaning-env
+version: "1.0.0"
+description: |
+  A real-world data cleaning environment where agents fix dirty CSV datasets.
+  Agents tackle realistic data quality issues including missing values, duplicates,
+  format inconsistencies, type errors, outliers, and categorical mismatches.
+  Three tasks of increasing difficulty with programmatic grading.
+  
+  Data cleaning represents 60-80% of data scientists' working time, making this
+  a highly relevant real-world task for agent training and evaluation.
+
+author: Waryjustice
+license: mit
+
+tags:
+  - openenv
+  - data-cleaning
+  - real-world
+  - tabular-data
+  - reinforcement-learning
+
+tasks:
+  - id: easy_nulls
+    difficulty: easy
+    description: >
+      Fix missing values and duplicate rows in a small 50-row, 3-column dataset.
+      This task tests basic data cleaning operations: filling nulls and removing duplicates.
+    expected_score_range: [0.85, 1.0]
+    max_steps: 20
+    
+  - id: medium_formats
+    difficulty: medium
+    description: >
+      Normalize inconsistent date formats, phone numbers, and categorical values in a 
+      200-row, 5-column sales dataset. Contains mixed date formats (YYYY-MM-DD, DD/MM/YYYY), 
+      phone numbers missing country codes, and category typos (Male/male/M).
+    expected_score_range: [0.6, 0.85]
+    max_steps: 20
+    
+  - id: hard_multitable
+    difficulty: hard
+    description: >
+      Fix type mismatches, outliers, and hidden nulls in a complex 500-row, 8-column dataset.
+      Challenges include age stored as strings, revenue with currency symbols, outlier values
+      (age=999, revenue=-9999), gender inconsistencies (Male/male/M/m), and hidden null
+      encodings ("N/A", "n/a", "NA" strings).
+    expected_score_range: [0.3, 0.65]
+    max_steps: 20
+
+action_space:
+  type: discrete
+  operations:
+    - fill_missing: Fill missing values in a column with a specified value
+    - drop_duplicates: Remove duplicate rows from the dataset
+    - normalize_dates: Convert date columns to a consistent format
+    - fix_types: Convert column to correct data type (int, float, string)
+    - remove_outliers: Remove rows with values outside specified bounds
+    - standardize_categorical: Map categorical values to standard labels
+    - done: Signal that cleaning is complete
+
+observation_space:
+  dataset_preview: string (markdown table of first 10 rows)
+  column_stats: object (nulls, dtypes, unique counts per column)
+  issues_remaining: array of strings (human-readable problems)
+  step_reward: float (reward for last action)
+  cumulative_reward: float (total episode reward)
+  done: boolean (episode finished)
+  message: string (feedback on last action)
+
+reward_function:
+  type: delta-based
+  description: >
+    Rewards are computed by comparing the dataset score before and after each action.
+    Positive delta = positive reward (made progress). Zero delta = small penalty (wasted step).
+    Negative delta = larger penalty (made things worse). Early termination with low score
+    incurs additional penalty.

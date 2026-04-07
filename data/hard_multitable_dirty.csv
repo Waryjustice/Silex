@@ -1,0 +1,501 @@
+id,age,gender,revenue,join_date,status,country,score
+1,58,male,23278,08/04/2022,active,USA,67.67
+2,52,male,97397,Jan 1 2023,active,Canada,23.27
+3,56,Male,93563,2021-12-21,pending,France,41.95
+4,46,N/A,56463,23/03/2020,inactive,UK,27.79
+5,31,female,33396,Jul 4 2020,inactive,UK,60.37
+6,69,Male,80217,2024-02-13,active,France,29.32
+7,58,N/A,67400,23/04/2024,active,USA,66.13
+8,67,Female,30458,Feb 13 2021,inactive,Germany,63.57
+9,41,M,68520,2022-04-22,inactive,USA,60.91
+10,28,Other,52087,13/08/2021,inactive,France,21.96
+11,38,Male,50021,Jun 13 2020,inactive,USA,21.1
+12,54,female,47869,2023-07-21,inactive,Canada,26.49
+13,33,Other,90644,19/12/2022,inactive,France,39.94
+14,32,M,86784,Feb 25 2023,active,USA,15.28
+15,28,n/a,75333,2024-02-13,inactive,France,99.61
+16,51,Female,92512,24/11/2020,active,France,75.09
+17,67,n/a,$64587,May 14 2020,active,Germany,0.32
+18,64,Female,85612,2021-09-04,pending,UK,84.17
+19,50,N/A,46071,25/06/2021,active,France,95.35
+20,51,Male,98504,Aug 1 2022,active,UK,87.87
+21,69,Female,51385,2020-04-19,active,USA,73.19
+22,70,male,89822,22/03/2021,inactive,France,16.51
+23,51,N/A,75461,Sep 25 2021,pending,Canada,71.29
+24,43,n/a,68944,2023-09-15,active,Canada,22.47
+25,39,Male,97110,19/04/2024,active,USA,7.1
+26,58,Male,50007,Jan 28 2020,inactive,USA,51.42
+27,35,n/a,83624,2021-09-05,pending,France,57.62
+28,33,f,73354,04/02/2021,pending,Germany,35.43
+29,44,f,27100,Jan 13 2020,pending,UK,80.06
+30,24,m,45112,2021-09-15,active,Germany,18.35
+31,47,m,N/A,26/08/2020,pending,USA,5.06
+32,52,Male,32224,Mar 14 2021,inactive,Germany,21.37
+33,43,Male,41579,2023-01-13,inactive,Germany,28.52
+34,62,Other,$83788,10/04/2021,active,USA,57.92
+35,52,Male,61104,Jan 19 2020,inactive,France,91.94
+36,51,M,27455,2024-02-28,active,USA,59.5
+37,N/A,n/a,50828,19/02/2023,active,France,59.45
+38,57,male,74948,Oct 17 2024,inactive,UK,20.43
+39,63,female,51285,2022-07-05,pending,UK,45.72
+40,66,male,-9999,20/08/2020,pending,USA,7.33
+41,31,Other,54760,Jun 3 2021,active,UK,28.5
+42,46,Other,59651,2024-11-17,active,France,29.94
+43,60,male,37601,04/02/2022,pending,France,15.54
+44,36,N/A,47607,Apr 22 2022,pending,UK,50.54
+45,34,Male,32097,2023-05-02,active,UK,77.11
+46,58,Female,41178,23/09/2023,inactive,France,0.97
+47,22,M,91511,Jun 19 2020,pending,Canada,42.98
+48,20,Female,67795,2020-06-07,pending,Canada,66.69
+49,40,Other,73264,05/12/2024,active,Canada,97.62
+50,999,M,74040,Mar 24 2020,inactive,Germany,80.22
+51,65,m,$54970,2021-12-04,inactive,USA,85.86
+52,32,m,80332,27/05/2022,active,Canada,2.37
+53,30,F,63025,Feb 25 2022,inactive,UK,64.15
+54,43,n/a,90282,2022-01-04,inactive,Canada,58.06
+55,34,Male,34208,12/07/2024,pending,UK,43.64
+56,50,male,70488,Apr 9 2024,active,Germany,0.17
+57,69,Other,45825,2022-07-03,pending,UK,62.32
+58,60,male,59363,22/05/2024,inactive,UK,40.24
+59,36,Other,36683,Jul 22 2021,inactive,Canada,61.55
+60,37,F,91819,2020-05-10,active,Germany,78.58
+61,56,n/a,62237,15/08/2023,pending,Canada,51.12
+62,68,M,N/A,May 17 2020,pending,France,33.52
+63,70,m,60687,2021-04-05,active,USA,24.48
+64,48,N/A,29545,21/07/2023,pending,Canada,71.83
+65,42,f,72383,Mar 21 2021,pending,USA,89.27
+66,67,male,75724,2021-03-26,pending,France,46.45
+67,53,m,35906,26/03/2023,inactive,France,98.79
+68,56,female,$78008,Dec 17 2024,inactive,France,44.59
+69,28,f,78991,2022-04-27,pending,UK,76.58
+70,51,f,51358,03/08/2022,pending,UK,23.45
+71,39,female,90798,Mar 5 2020,active,Germany,69.39
+72,63,m,28418,2023-07-11,pending,Germany,41.58
+73,31,F,71049,01/12/2024,pending,Germany,47.7
+74,N/A,female,59139,Jul 18 2023,pending,France,79.99
+75,32,f,48760,2022-07-16,active,Germany,33.61
+76,61,F,41632,20/03/2023,pending,USA,90.69
+77,55,N/A,23552,Nov 14 2020,active,Germany,18.17
+78,34,F,62906,2021-08-11,inactive,Germany,27.83
+79,44,Female,30735,24/01/2023,pending,USA,99.99
+80,40,m,-9999,Nov 2 2020,active,Canada,19.94
+81,19,N/A,39973,2021-03-16,pending,USA,56.4
+82,31,f,53586,20/03/2022,pending,USA,77.78
+83,28,Female,34168,Jan 10 2024,pending,Germany,39.67
+84,63,m,29961,2024-12-27,pending,Canada,10.19
+85,67,Female,$98697,26/10/2020,active,UK,53.27
+86,60,female,29038,Nov 11 2024,active,Germany,82.23
+87,24,F,67472,2023-12-05,inactive,Canada,73.38
+88,59,Female,90539,14/08/2023,pending,France,26.84
+89,33,male,56559,Apr 25 2023,inactive,France,61.03
+90,42,female,23761,2023-06-06,inactive,Canada,35.48
+91,34,female,56655,09/12/2024,pending,USA,51.66
+92,30,male,51635,Aug 18 2023,active,Germany,64.59
+93,49,f,N/A,2020-02-10,active,Germany,69.18
+94,37,n/a,96225,18/08/2022,pending,UK,42.55
+95,65,Other,63357,Dec 15 2022,inactive,UK,25.14
+96,25,m,61359,2020-12-18,pending,Canada,19.15
+97,65,f,56241,20/09/2024,inactive,USA,83.26
+98,36,m,67301,May 1 2021,pending,France,12.66
+99,20,Male,92529,2022-12-05,pending,Germany,10.26
+100,999,Male,95243,16/08/2022,inactive,UK,18.44
+101,21,Female,82616,Feb 13 2020,inactive,USA,57.7
+102,61,Male,$39887,2021-10-10,active,Canada,11.85
+103,66,F,99471,08/10/2024,pending,Germany,45.05
+104,46,Female,97139,May 19 2023,pending,USA,60.96
+105,65,male,47235,2021-05-22,active,Canada,23.99
+106,53,male,40517,15/07/2020,pending,France,46.99
+107,20,m,57762,Dec 28 2022,inactive,USA,68.74
+108,34,n/a,97304,2021-07-04,pending,Canada,64.76
+109,35,M,29359,26/03/2020,inactive,France,74.9
+110,54,Female,77560,Aug 23 2020,inactive,Germany,94.27
+111,N/A,Other,90776,2023-08-03,pending,USA,88.94
+112,65,female,99129,03/01/2022,active,France,58.71
+113,19,n/a,55325,Jan 25 2024,active,Germany,51.9
+114,46,Female,43788,2024-07-21,inactive,USA,47.0
+115,44,female,62081,11/03/2020,inactive,Germany,28.82
+116,43,Other,24809,Feb 11 2023,inactive,UK,11.59
+117,67,F,87449,2020-11-28,pending,Germany,41.32
+118,30,Other,67419,21/08/2024,inactive,USA,20.36
+119,53,M,$57752,Dec 16 2023,active,USA,97.31
+120,56,m,-9999,2021-05-18,active,France,40.8
+121,32,male,80482,27/11/2020,active,Germany,93.27
+122,36,Other,55838,Aug 16 2023,active,Germany,55.13
+123,42,m,98561,2024-12-05,active,UK,77.27
+124,44,female,N/A,27/05/2024,active,UK,72.61
+125,55,N/A,84178,Aug 18 2021,inactive,UK,33.24
+126,66,Other,69441,2023-06-28,active,Canada,57.18
+127,32,F,25720,16/12/2022,pending,Germany,38.61
+128,60,n/a,39936,Jan 5 2023,pending,France,33.2
+129,24,f,33069,2024-08-01,pending,Canada,41.0
+130,59,M,29807,11/05/2023,pending,Germany,64.98
+131,39,n/a,89942,Jun 21 2023,pending,Germany,87.24
+132,20,N/A,28968,2021-11-22,inactive,Canada,74.68
+133,45,male,33173,23/03/2023,inactive,USA,4.6
+134,68,Male,58452,Jun 14 2022,active,Canada,53.12
+135,54,n/a,43600,2021-03-03,pending,Germany,61.97
+136,33,f,$96435,15/04/2021,pending,UK,45.96
+137,60,Male,80981,Nov 18 2022,active,USA,44.17
+138,40,N/A,59210,2023-12-09,inactive,UK,19.92
+139,42,f,33979,19/07/2021,inactive,France,29.59
+140,62,Female,22875,May 1 2023,pending,USA,91.06
+141,65,f,57512,2021-10-26,inactive,Canada,63.66
+142,57,Female,37927,21/11/2020,active,UK,78.86
+143,20,N/A,67823,Feb 10 2021,inactive,Germany,17.56
+144,26,Other,67953,2024-09-09,active,UK,91.4
+145,48,Female,64396,03/08/2020,active,Canada,86.01
+146,64,n/a,72089,Jun 3 2024,inactive,USA,26.45
+147,25,f,68311,2022-10-13,pending,UK,10.83
+148,N/A,m,81797,18/10/2020,inactive,France,22.14
+149,22,n/a,80852,Nov 14 2022,active,Canada,4.53
+150,999,Male,59893,2023-02-04,active,France,13.57
+151,47,female,90804,24/10/2023,pending,Canada,88.54
+152,59,male,84139,Jul 9 2024,active,UK,21.73
+153,46,m,$67537,2020-11-12,pending,UK,6.06
+154,35,m,36011,22/02/2023,active,France,97.11
+155,21,female,N/A,Mar 26 2021,pending,Canada,6.86
+156,66,Other,47152,2024-04-27,active,UK,77.44
+157,68,N/A,20371,05/03/2022,pending,UK,79.85
+158,25,n/a,23379,Jan 12 2021,active,France,32.38
+159,29,Female,26868,2021-12-14,pending,USA,74.57
+160,48,f,-9999,19/09/2022,active,Germany,50.38
+161,57,Male,88347,Aug 21 2022,active,USA,99.86
+162,43,F,34150,2023-12-15,active,USA,32.21
+163,27,male,36540,21/10/2022,pending,France,71.22
+164,42,N/A,89541,Aug 17 2022,pending,Germany,9.92
+165,62,male,92264,2021-07-15,active,Germany,33.89
+166,47,F,74524,14/06/2020,inactive,UK,37.43
+167,27,n/a,82163,Feb 27 2020,active,USA,43.19
+168,65,female,37054,2024-01-19,pending,France,32.96
+169,25,F,66346,02/12/2023,inactive,France,31.24
+170,24,N/A,$86507,Mar 22 2021,inactive,Canada,84.73
+171,40,Other,68176,2020-05-19,active,Germany,84.52
+172,67,N/A,92972,22/10/2020,pending,UK,2.9
+173,35,Female,64541,Jan 6 2022,active,France,65.73
+174,22,M,24018,2020-12-17,active,Germany,41.98
+175,39,M,68503,11/12/2022,pending,France,8.5
+176,21,M,40632,Jan 22 2024,active,UK,44.31
+177,45,f,99570,2023-07-09,active,France,11.38
+178,45,male,57125,17/08/2024,pending,UK,4.54
+179,43,N/A,27180,Apr 10 2020,active,Canada,76.42
+180,36,female,35726,2020-08-24,inactive,Canada,12.92
+181,52,m,85570,26/11/2024,inactive,USA,39.71
+182,65,Male,77176,Aug 3 2020,inactive,France,42.93
+183,43,n/a,74747,2022-02-13,active,UK,17.19
+184,57,f,67428,28/07/2020,active,Canada,43.57
+185,N/A,F,88676,Jul 28 2020,inactive,UK,22.16
+186,67,M,N/A,2020-09-21,active,France,51.0
+187,67,female,$66019,04/04/2021,active,UK,19.73
+188,56,M,29876,Nov 16 2021,inactive,France,75.99
+189,46,n/a,93989,2024-06-28,pending,UK,15.1
+190,22,f,77961,19/05/2022,active,UK,50.73
+191,37,f,79233,Jan 12 2020,inactive,USA,64.47
+192,23,N/A,97867,2024-07-15,pending,France,95.42
+193,65,Male,78947,07/11/2024,inactive,France,47.56
+194,27,Male,79050,Jun 23 2020,active,France,64.61
+195,20,m,77377,2023-09-17,pending,Canada,36.39
+196,36,F,73578,20/11/2022,active,UK,6.59
+197,24,Other,70667,May 24 2022,pending,France,87.33
+198,39,male,96380,2021-06-10,pending,Germany,12.9
+199,63,male,60577,21/07/2024,inactive,Canada,67.01
+200,999,n/a,-9999,Feb 21 2024,pending,Germany,50.85
+201,19,female,60483,2021-04-11,inactive,Canada,22.65
+202,26,M,30114,17/02/2022,pending,France,3.77
+203,39,N/A,37176,Jul 5 2024,active,Canada,83.13
+204,67,N/A,$41697,2023-01-14,inactive,Canada,96.96
+205,57,Female,78841,08/09/2021,inactive,Germany,90.4
+206,30,female,94766,Aug 25 2023,inactive,Germany,50.29
+207,44,M,46174,2024-03-28,inactive,USA,64.12
+208,41,Other,33446,10/02/2024,active,Canada,27.28
+209,50,M,77340,Apr 27 2020,inactive,UK,93.05
+210,44,Male,71964,2024-06-08,inactive,USA,37.49
+211,19,female,32987,05/03/2022,active,UK,91.74
+212,48,M,81487,Oct 1 2023,active,USA,25.59
+213,27,Other,99807,2024-07-04,inactive,Canada,30.12
+214,21,m,75027,03/08/2024,active,Germany,59.67
+215,19,n/a,87551,Apr 23 2024,active,UK,42.92
+216,57,female,51531,2024-07-06,pending,USA,52.35
+217,41,male,N/A,17/09/2024,pending,France,2.03
+218,48,Male,70709,May 24 2022,active,UK,78.85
+219,40,m,33587,2024-12-25,inactive,Canada,4.43
+220,52,female,42949,16/12/2023,pending,Canada,81.15
+221,22,f,$24847,Apr 2 2022,active,USA,31.56
+222,N/A,Female,87552,2023-09-16,inactive,USA,75.33
+223,30,Female,66789,11/11/2020,inactive,USA,79.93
+224,45,F,77637,Jun 6 2023,inactive,Germany,36.73
+225,69,Other,54959,2020-12-14,active,Germany,60.25
+226,70,M,91496,04/06/2022,active,UK,66.09
+227,37,f,98986,Mar 23 2023,inactive,UK,44.71
+228,64,female,77008,2022-11-26,active,USA,67.12
+229,43,female,87251,05/01/2021,pending,Germany,3.48
+230,22,m,68015,Jul 19 2022,active,France,15.34
+231,46,female,68760,2023-02-19,active,France,36.69
+232,38,n/a,56528,01/02/2021,pending,Canada,49.9
+233,42,Other,35435,May 23 2022,inactive,Canada,99.64
+234,36,f,46237,2020-03-28,active,Germany,17.27
+235,63,f,31506,12/11/2022,pending,USA,55.0
+236,36,Female,40644,Jun 17 2021,active,USA,98.51
+237,68,M,51029,2023-01-12,pending,France,36.89
+238,69,Other,$37009,03/02/2024,inactive,Germany,99.96
+239,64,f,88903,Jul 27 2023,pending,USA,12.53
+240,38,n/a,-9999,2020-08-15,pending,France,34.45
+241,67,Other,97042,14/03/2021,pending,USA,83.14
+242,51,M,59862,Mar 11 2021,pending,Canada,34.6
+243,51,Female,30336,2022-04-21,pending,UK,12.52
+244,37,N/A,89924,21/09/2020,active,France,94.16
+245,27,M,99316,Oct 2 2022,active,USA,4.55
+246,59,N/A,54688,2021-10-14,pending,USA,49.8
+247,58,Other,57967,08/08/2022,pending,Germany,29.74
+248,22,Male,N/A,Aug 14 2021,inactive,Germany,20.4
+249,56,M,60970,2022-12-28,inactive,Germany,13.08
+250,999,female,87499,11/02/2024,active,Germany,12.25
+251,46,m,38465,Jan 10 2020,inactive,France,41.81
+252,28,female,95718,2022-04-25,active,Germany,99.6
+253,47,f,60441,03/01/2023,inactive,France,45.72
+254,33,m,96460,Jan 2 2022,inactive,Germany,59.75
+255,59,n/a,$81680,2022-09-01,active,Germany,13.39
+256,34,female,72855,13/01/2022,active,France,56.18
+257,41,Other,57827,Jul 17 2020,inactive,France,27.97
+258,57,n/a,35572,2021-02-13,inactive,UK,55.78
+259,N/A,female,38909,17/10/2021,inactive,France,4.03
+260,20,M,63652,Sep 15 2023,active,France,89.31
+261,26,female,61750,2021-07-20,pending,UK,59.37
+262,50,Other,89774,19/12/2023,inactive,Germany,81.57
+263,41,female,34366,Oct 10 2023,pending,USA,59.69
+264,34,n/a,95821,2024-04-24,active,France,48.04
+265,51,n/a,69832,08/11/2021,active,France,94.82
+266,25,m,22482,Jun 14 2023,active,Germany,69.05
+267,44,Other,81814,2020-12-05,pending,Canada,56.09
+268,60,f,88875,06/06/2023,inactive,France,34.23
+269,40,n/a,54650,Aug 7 2024,active,UK,55.81
+270,32,Female,57880,2021-12-23,inactive,UK,47.98
+271,53,Female,57721,22/10/2020,pending,Germany,89.58
+272,43,female,$39198,Jan 10 2022,pending,USA,34.64
+273,46,n/a,53612,2023-04-07,pending,UK,93.3
+274,62,Female,37992,24/10/2020,pending,Canada,24.25
+275,60,Other,49579,Jan 4 2021,inactive,UK,71.74
+276,24,n/a,38018,2020-09-06,inactive,Germany,47.74
+277,30,Female,62096,02/11/2022,active,France,23.22
+278,65,Male,42946,Mar 2 2023,inactive,Germany,18.63
+279,65,Female,N/A,2020-01-10,pending,France,10.73
+280,39,Female,-9999,18/11/2023,pending,Germany,88.93
+281,26,Other,81344,Apr 26 2022,active,UK,16.25
+282,47,n/a,53720,2021-01-24,inactive,UK,56.78
+283,66,m,43002,13/11/2024,inactive,France,32.79
+284,43,n/a,32502,Mar 16 2021,inactive,Canada,0.68
+285,42,m,78554,2022-06-10,pending,France,1.14
+286,59,female,50972,04/11/2020,inactive,UK,15.97
+287,61,Other,60760,Nov 10 2020,inactive,France,22.08
+288,26,f,40078,2023-12-20,inactive,Germany,70.19
+289,48,Other,$48627,25/11/2021,pending,USA,52.55
+290,51,female,30237,Feb 2 2024,pending,France,20.22
+291,52,M,41566,2022-09-15,active,Canada,71.69
+292,49,male,86895,15/01/2023,active,France,41.54
+293,54,Male,93242,Nov 26 2023,inactive,USA,39.59
+294,70,Male,48560,2024-02-02,inactive,UK,70.04
+295,52,Male,29046,10/01/2023,inactive,Canada,76.9
+296,N/A,n/a,75097,Jul 15 2022,inactive,Germany,8.02
+297,60,Other,37431,2022-02-06,pending,Germany,52.88
+298,64,m,20455,15/05/2020,pending,France,42.41
+299,42,m,52441,Jun 5 2023,inactive,Canada,93.74
+300,999,male,24222,2023-10-25,active,Canada,20.61
+301,24,N/A,24400,22/10/2023,pending,USA,24.47
+302,20,F,77535,Sep 7 2021,active,Canada,50.39
+303,36,m,95511,2022-10-20,pending,UK,23.69
+304,27,n/a,88321,10/07/2021,inactive,USA,55.67
+305,55,M,75994,Aug 2 2024,inactive,Germany,78.58
+306,38,F,$73511,2021-05-13,active,France,47.35
+307,32,Female,38920,18/01/2023,inactive,Germany,55.73
+308,26,F,51831,Apr 11 2022,pending,USA,92.22
+309,41,male,90206,2021-01-09,inactive,France,60.29
+310,22,m,N/A,22/12/2024,pending,Canada,47.94
+311,39,Female,22009,Apr 24 2021,active,Germany,91.44
+312,62,N/A,46805,2023-04-18,inactive,UK,38.07
+313,52,n/a,67088,12/05/2022,pending,Germany,46.6
+314,69,f,61973,Jun 11 2021,inactive,USA,56.25
+315,32,M,22125,2022-09-19,pending,Germany,29.52
+316,30,female,50149,27/10/2023,active,Germany,55.06
+317,61,female,53728,Dec 21 2023,pending,Germany,46.08
+318,64,female,42185,2021-12-18,inactive,Canada,91.69
+319,52,n/a,27698,27/01/2024,active,USA,76.43
+320,44,M,-9999,Feb 23 2021,active,USA,21.87
+321,47,female,27923,2024-11-22,pending,Germany,65.93
+322,19,Male,89758,01/07/2024,active,France,72.22
+323,52,Female,$22246,Dec 22 2024,inactive,Canada,10.7
+324,24,Other,39516,2021-04-20,pending,UK,81.52
+325,35,F,30357,15/07/2022,pending,Canada,99.02
+326,32,Female,30566,Feb 13 2020,inactive,Germany,55.27
+327,21,n/a,21238,2021-02-16,inactive,UK,56.59
+328,24,Other,25577,28/04/2021,pending,France,47.55
+329,20,male,56749,Oct 22 2024,active,Canada,92.88
+330,38,Male,47152,2024-03-25,pending,Germany,92.89
+331,37,M,93919,27/10/2021,inactive,France,33.17
+332,66,M,30279,Dec 12 2024,active,USA,43.71
+333,N/A,male,64642,2024-10-20,inactive,UK,2.96
+334,35,f,84304,18/06/2021,inactive,Germany,18.57
+335,55,n/a,69816,Oct 10 2020,active,USA,8.2
+336,27,F,40221,2023-06-12,active,USA,0.52
+337,37,f,67175,05/02/2022,active,Canada,43.1
+338,53,Other,87166,Feb 1 2023,active,UK,55.42
+339,56,N/A,62523,2023-01-10,inactive,Germany,77.92
+340,64,Other,$51816,06/09/2024,pending,Germany,16.95
+341,35,Female,N/A,Aug 5 2022,active,Canada,43.47
+342,44,Female,83469,2020-06-09,active,Germany,59.38
+343,30,f,34021,01/05/2021,inactive,UK,84.16
+344,42,female,77700,Jul 27 2022,pending,France,13.61
+345,38,N/A,46326,2023-06-06,inactive,UK,29.14
+346,62,n/a,84357,11/04/2024,inactive,UK,81.65
+347,43,female,34927,Apr 19 2024,pending,Canada,68.17
+348,53,Male,80505,2021-08-26,inactive,USA,81.9
+349,68,F,85444,10/11/2021,active,UK,65.87
+350,999,F,69412,Aug 20 2020,inactive,France,40.08
+351,50,F,91256,2020-06-23,pending,France,63.82
+352,23,male,52536,21/03/2022,pending,USA,56.32
+353,59,n/a,72378,Jul 4 2022,active,USA,25.87
+354,50,Other,93137,2024-12-19,active,Germany,37.41
+355,47,n/a,97147,12/03/2024,active,Germany,10.45
+356,44,male,35213,Jun 10 2021,inactive,Germany,78.43
+357,51,f,$65652,2023-02-15,pending,Germany,31.89
+358,37,Male,35084,21/06/2020,active,Canada,92.99
+359,65,m,87632,Sep 6 2021,inactive,France,42.64
+360,47,m,-9999,2023-11-06,active,Germany,39.56
+361,65,N/A,45863,14/10/2023,inactive,USA,70.47
+362,31,Female,28200,Feb 26 2024,pending,Canada,36.58
+363,30,f,34936,2022-11-28,inactive,France,96.59
+364,38,N/A,70939,19/07/2024,active,UK,35.2
+365,47,N/A,42613,Oct 19 2022,active,Canada,31.32
+366,33,Female,35328,2021-06-23,active,France,38.85
+367,56,M,95340,06/07/2023,inactive,France,69.34
+368,59,M,92733,Aug 10 2021,active,Canada,31.46
+369,46,N/A,27026,2022-01-16,active,Canada,81.52
+370,N/A,Other,86248,22/07/2023,inactive,Germany,71.01
+371,46,f,41922,Oct 1 2020,active,UK,3.27
+372,32,Other,N/A,2022-03-25,inactive,France,74.25
+373,67,f,92053,19/02/2024,active,UK,77.51
+374,70,female,$91046,Dec 15 2020,pending,Canada,98.98
+375,24,n/a,52444,2022-01-15,inactive,UK,86.22
+376,23,f,35386,26/04/2021,pending,France,68.91
+377,63,N/A,76120,Oct 5 2021,active,Canada,80.54
+378,54,female,89767,2022-10-18,active,UK,97.9
+379,36,Female,95069,22/09/2022,active,Canada,96.28
+380,68,F,27770,Nov 5 2022,pending,Canada,24.97
+381,63,female,52447,2023-08-05,pending,UK,62.78
+382,42,f,29898,17/07/2020,pending,UK,69.47
+383,41,f,83968,Oct 1 2022,pending,USA,73.09
+384,47,n/a,66952,2020-09-13,active,Germany,82.48
+385,49,Female,62318,18/06/2022,pending,Canada,56.61
+386,49,female,26345,Feb 21 2020,inactive,USA,12.42
+387,28,f,79836,2020-07-07,pending,Canada,88.21
+388,37,M,55916,12/11/2020,inactive,USA,37.18
+389,59,M,26787,Nov 10 2023,pending,Canada,42.92
+390,23,male,20142,2021-08-03,active,France,22.62
+391,61,f,$21217,11/12/2020,active,Germany,69.4
+392,48,male,50008,Feb 24 2023,active,USA,31.34
+393,37,M,70164,2021-11-22,active,USA,53.05
+394,18,N/A,41511,24/06/2023,active,Canada,91.99
+395,57,n/a,77984,Feb 4 2021,active,USA,58.96
+396,42,female,76280,2022-03-08,inactive,USA,24.82
+397,56,N/A,99638,01/12/2022,pending,UK,20.54
+398,56,Other,44726,May 21 2023,active,Canada,49.49
+399,25,m,85481,2024-02-17,active,UK,93.39
+400,999,M,-9999,14/10/2023,inactive,France,68.29
+401,66,f,29567,Oct 3 2020,active,UK,21.57
+402,21,F,86402,2022-11-23,pending,Germany,42.36
+403,43,male,N/A,20/09/2024,active,UK,8.36
+404,23,Other,46633,Sep 11 2021,inactive,France,63.43
+405,59,n/a,28665,2022-12-14,pending,Canada,5.79
+406,23,F,35202,20/10/2023,active,UK,66.61
+407,N/A,n/a,43022,Jan 23 2020,active,USA,16.38
+408,40,Other,$87793,2022-03-12,active,UK,73.29
+409,25,Male,63910,17/05/2023,active,UK,71.23
+410,54,n/a,30101,Aug 17 2023,inactive,USA,49.96
+411,54,M,68193,2021-05-25,active,France,67.41
+412,25,m,86692,28/01/2020,active,Canada,4.6
+413,41,F,39671,Jan 18 2021,pending,Germany,22.45
+414,33,F,61934,2022-02-19,inactive,USA,50.2
+415,21,M,49253,13/01/2024,active,Germany,86.6
+416,67,Female,62899,Sep 15 2020,active,UK,20.07
+417,54,Female,51795,2023-06-19,inactive,Canada,73.25
+418,52,m,39735,01/07/2020,active,France,34.64
+419,62,Male,63911,Nov 13 2020,pending,UK,10.39
+420,51,m,75026,2023-01-05,pending,UK,9.3
+421,32,Other,74140,24/08/2022,active,France,9.56
+422,26,n/a,71688,Oct 19 2020,active,Germany,66.24
+423,26,m,58230,2022-06-26,inactive,UK,31.81
+424,35,m,29789,25/03/2021,pending,USA,15.54
+425,28,f,$81086,Jul 4 2022,pending,UK,96.46
+426,31,f,60410,2023-05-28,active,USA,15.76
+427,61,Female,99076,27/04/2020,inactive,Canada,9.12
+428,33,female,71936,Jan 22 2024,inactive,UK,82.01
+429,29,Male,73004,2023-09-24,pending,Canada,9.47
+430,24,M,35919,27/01/2020,active,Canada,19.81
+431,43,female,31015,Oct 9 2024,active,USA,99.72
+432,30,n/a,78121,2021-02-28,inactive,USA,4.27
+433,47,Male,42018,27/07/2024,pending,Germany,49.61
+434,42,n/a,N/A,Mar 12 2023,active,Canada,27.5
+435,46,M,24541,2024-10-20,active,UK,49.89
+436,53,f,27992,13/05/2020,active,Germany,19.95
+437,69,Other,52656,Jan 13 2024,pending,UK,47.97
+438,68,f,65093,2024-09-11,inactive,UK,17.98
+439,38,N/A,48707,02/05/2020,inactive,France,35.74
+440,55,m,-9999,Feb 8 2021,pending,Canada,26.65
+441,70,Male,48758,2024-07-12,active,Canada,23.66
+442,38,female,$97537,23/12/2020,inactive,France,56.36
+443,54,m,84517,May 6 2024,inactive,USA,9.03
+444,N/A,m,98861,2021-01-17,inactive,USA,33.17
+445,57,m,37103,06/12/2022,inactive,USA,2.19
+446,55,M,34538,Jun 3 2024,inactive,Germany,58.6
+447,39,Female,62284,2021-03-24,inactive,Germany,64.92
+448,29,Other,66769,19/11/2021,active,Germany,30.68
+449,62,Female,36691,Dec 1 2021,pending,France,39.16
+450,999,N/A,24244,2021-10-11,pending,Canada,63.96
+451,24,f,38434,03/12/2022,active,UK,98.24
+452,28,n/a,31629,Aug 1 2022,inactive,Canada,24.95
+453,22,female,53640,2020-12-01,active,Germany,43.82
+454,44,M,74266,12/07/2023,pending,Germany,10.14
+455,48,N/A,49567,Aug 3 2021,active,UK,2.01
+456,34,male,29725,2022-03-13,active,USA,54.7
+457,23,female,97860,23/08/2024,active,Germany,94.24
+458,28,N/A,76911,Jan 4 2021,inactive,Canada,97.44
+459,44,Other,$90795,2022-11-10,inactive,Canada,9.59
+460,43,N/A,92045,02/03/2023,inactive,USA,42.76
+461,36,n/a,98671,Apr 4 2023,active,Canada,17.08
+462,36,male,82071,2020-05-26,inactive,Germany,48.91
+463,60,Female,31945,06/07/2024,inactive,Germany,36.94
+464,46,Male,54510,Aug 9 2023,active,UK,56.42
+465,27,n/a,N/A,2020-02-22,inactive,France,41.4
+466,66,N/A,49820,27/01/2024,inactive,France,41.86
+467,52,n/a,82236,Apr 16 2024,inactive,USA,39.48
+468,63,Male,85811,2024-09-26,pending,France,14.74
+469,66,f,42659,26/04/2021,active,Canada,4.27
+470,23,n/a,77067,Nov 5 2021,pending,UK,31.97
+471,64,male,31406,2023-09-13,pending,UK,85.66
+472,51,f,21620,17/10/2024,inactive,USA,41.44
+473,27,N/A,97061,Feb 4 2024,pending,USA,78.57
+474,52,female,73856,2022-07-21,inactive,France,60.9
+475,20,M,56099,20/03/2023,pending,Germany,3.88
+476,39,m,$26460,May 12 2023,active,UK,81.74
+477,37,Female,56745,2023-12-22,active,Canada,13.44
+478,65,f,62056,14/12/2022,pending,USA,18.79
+479,31,F,83499,Jun 27 2024,active,France,79.15
+480,22,Female,-9999,2024-07-05,pending,France,2.89
+481,N/A,m,46309,02/04/2020,inactive,USA,91.8
+482,63,m,55910,Aug 17 2022,inactive,USA,68.12
+483,33,female,84066,2024-08-06,inactive,France,55.13
+484,40,M,53903,01/05/2020,inactive,USA,16.29
+485,54,m,49012,Nov 7 2021,inactive,Germany,51.33
+486,67,n/a,21166,2023-03-21,active,France,80.09
+487,32,Female,99736,23/12/2022,pending,UK,42.38
+488,42,female,80161,Apr 15 2022,inactive,France,82.43
+489,43,N/A,33410,2020-09-22,inactive,France,64.73
+490,56,Female,59121,03/08/2020,inactive,UK,64.06
+491,35,Female,59163,Mar 17 2021,active,USA,80.54
+492,69,N/A,72965,2022-11-05,pending,USA,65.54
+493,36,Female,$74862,24/07/2023,active,France,70.81
+494,54,m,64979,Nov 18 2021,pending,Germany,90.65
+495,60,female,86494,2022-03-27,pending,France,18.11
+496,24,f,N/A,09/12/2021,pending,France,76.29
+497,29,n/a,63992,Apr 12 2020,active,UK,42.05
+498,39,female,54152,2024-05-15,active,Germany,5.37
+499,58,N/A,96062,16/02/2024,active,France,11.98
+500,999,n/a,70026,May 14 2024,active,Canada,13.74
