@@ -1,5 +1,7 @@
 """FastAPI server for DataCleaningEnv."""
 
+import os
+
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -183,6 +185,15 @@ def get_schema():
     }
 
 
-if __name__ == "__main__":
+def main(host: str = "0.0.0.0", port: int | None = None):
+    """Run the DataCleaningEnv server."""
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+    if port is None:
+        port = int(os.getenv("API_PORT", "7860"))
+
+    uvicorn.run(app, host=host, port=port)
+
+
+if __name__ == "__main__":
+    main()
