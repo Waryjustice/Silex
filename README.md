@@ -205,6 +205,7 @@ HF_TOKEN=your_hf_token_here
 ```bash
 # Set environment variables
 export HF_TOKEN=your_token_here
+pip install -r requirements.txt
 
 # Run baseline inference
 python inference.py

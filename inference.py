@@ -14,6 +14,10 @@ from datetime import datetime
 from openai import OpenAI
 from client import DataCleaningEnvClient
 from models import CleaningAction
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Environment variables (CRITICAL: exact names, defaults only for API_BASE_URL and MODEL_NAME)
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api-inference.huggingface.co/v1")
