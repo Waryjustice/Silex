@@ -1,38 +1,47 @@
 """
 Baseline inference script for DataCleaningEnv.
 
-CRITICAL: This script must follow the exact logging format required by the hackathon:
-- [START] task_id=<task> model=<model> timestamp=<iso8601>
-- [STEP] step=<n> action=<json> reward=<float> score=<float> done=<bool>
-- [END] task_id=<task> final_score=<float> steps=<int> duration=<float>
+Stdout contract per episode:
+[START] task=<task_name> env=<benchmark> model=<model_name>
+[STEP] step=<n> action=<action_str> reward=<0.00> done=<true|false> error=<msg|null>
+[END] success=<true|false> steps=<n> rewards=<r1,r2,...,rn>
 """
 
-import os
-import json
 import asyncio
-from datetime import datetime
-from openai import OpenAI
-from client import DataCleaningEnvClient
-from models import CleaningAction
+import json
+import os
+import sys
+from typing import Optional
+
 from dotenv import load_dotenv
+from openai import OpenAI
+
+from client import DataCleaningEnvClient
+from models import CleaningAction, CleaningObservation
 
 # Load environment variables
 load_dotenv()
 
-# Environment variables (CRITICAL: exact names, defaults only for API_BASE_URL and MODEL_NAME)
-API_BASE_URL = os.getenv("API_BASE_URL", "https://api-inference.huggingface.co/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.3-70B-Instruct")
-HF_TOKEN = os.getenv("HF_TOKEN")  # NO DEFAULT - must be provided
+# Required hackathon environment variables
+API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-# Validate HF_TOKEN
-if not HF_TOKEN:
-    raise ValueError("HF_TOKEN environment variable must be set")
+# Optional runtime controls
+BENCHMARK_NAME = os.getenv("BENCHMARK_NAME", "data-cleaning-env")
+ENV_URL = os.getenv("ENV_URL", "http://localhost:7860")
+MAX_STEPS = int(os.getenv("MAX_STEPS", "20"))
+TASK_IDS = [
+    task.strip()
+    for task in os.getenv("TASK_IDS", "easy_nulls,medium_formats,hard_multitable").split(",")
+    if task.strip()
+]
 
-# Initialize OpenAI client with HF Inference API
-client = OpenAI(
-    base_url=API_BASE_URL,
-    api_key=HF_TOKEN
-)
+if HF_TOKEN is None:
+    raise ValueError("HF_TOKEN environment variable is required")
+
+# OpenAI client for all LLM calls
+client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
 
 # System prompt for the LLM
 SYSTEM_PROMPT = """You are a data cleaning agent. You receive a dataset preview and a list of data quality issues.
@@ -58,147 +67,109 @@ Output ONLY valid JSON matching this schema:
 Be strategic: tackle the most impactful issues first."""
 
 
-async def run_task(task_id: str, difficulty: str, env_url: str = "http://localhost:7860") -> dict:
-    """
-    Run a single task episode.
-    
-    Args:
-        task_id: Task identifier
-        difficulty: Difficulty level
-        env_url: Environment server URL
-        
-    Returns:
-        Dictionary with task results
-    """
-    start_time = datetime.now()
-    
-    # [START] log - EXACT FORMAT REQUIRED
-    print(f"[START] task_id={task_id} model={MODEL_NAME} timestamp={start_time.isoformat()}")
-    
+def _bool_str(value: bool) -> str:
+    return "true" if value else "false"
+
+
+def _sanitize_single_line(value: str) -> str:
+    return value.replace("\r", " ").replace("\n", " ").strip()
+
+
+def _format_error(value: Optional[str]) -> str:
+    if not value:
+        return "null"
+    return _sanitize_single_line(value)
+
+
+def _action_to_str(action: CleaningAction) -> str:
+    return json.dumps(action.model_dump(exclude_none=True), separators=(",", ":"))
+
+
+def _message_to_error(message: str) -> Optional[str]:
+    lowered = message.lower()
+    if lowered.startswith(("invalid", "failed", "error")):
+        return message
+    return None
+
+
+def _build_user_prompt(obs: CleaningObservation) -> str:
+    issues = "\n".join(f"- {issue}" for issue in obs.issues_remaining)
+    return (
+        f"Dataset Preview:\n{obs.dataset_preview}\n\n"
+        f"Column Statistics:\n{json.dumps(obs.column_stats, indent=2)}\n\n"
+        f"Issues Remaining:\n{issues}\n\n"
+        f"Current Score: {obs.cumulative_reward:.3f}\n\n"
+        "What cleaning action should I take next? Output JSON only."
+    )
+
+
+def _choose_action(obs: CleaningObservation) -> tuple[CleaningAction, str, Optional[str]]:
+    try:
+        response = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": _build_user_prompt(obs)},
+            ],
+            response_format={"type": "json_object"},
+            temperature=0.0,
+            max_tokens=200,
+        )
+        raw_action = response.choices[0].message.content or '{"operation":"done"}'
+        action = CleaningAction.model_validate_json(raw_action)
+        return action, _action_to_str(action), None
+    except Exception as exc:
+        fallback_action = CleaningAction(operation="done")
+        return fallback_action, _action_to_str(fallback_action), str(exc)
+
+
+async def run_task(task_id: str, env_url: str) -> dict:
+    rewards: list[float] = []
+    steps = 0
+    done = False
+    success = False
+
+    print(f"[START] task={task_id} env={BENCHMARK_NAME} model={MODEL_NAME}")
+
     try:
         async with DataCleaningEnvClient(env_url) as env:
-            # Reset environment
             obs = await env.reset(task_id=task_id)
-            
-            step_num = 0
-            max_steps = 20  # Limit to avoid timeout
-            
-            while not obs.done and step_num < max_steps:
-                # Prepare prompt for LLM
-                user_prompt = f"""Dataset Preview:
-{obs.dataset_preview}
+            done = obs.done
 
-Column Statistics:
-{json.dumps(obs.column_stats, indent=2)}
-
-Issues Remaining:
-{chr(10).join(f'- {issue}' for issue in obs.issues_remaining)}
-
-Current Score: {obs.cumulative_reward:.3f}
-
-What cleaning action should I take next? Output JSON only."""
-
-                # Call LLM
-                try:
-                    response = client.chat.completions.create(
-                        model=MODEL_NAME,
-                        messages=[
-                            {"role": "system", "content": SYSTEM_PROMPT},
-                            {"role": "user", "content": user_prompt}
-                        ],
-                        response_format={"type": "json_object"},
-                        temperature=0.7,
-                        max_tokens=200
-                    )
-                    
-                    action_json = response.choices[0].message.content
-                    action = CleaningAction.model_validate_json(action_json)
-                
-                except Exception as e:
-                    # Fallback: signal done if LLM fails
-                    print(f"Warning: LLM call failed ({str(e)}), signaling done")
-                    action = CleaningAction(operation="done")
-                    action_json = json.dumps(action.model_dump())
-                
-                # Take step
+            while not done and steps < MAX_STEPS:
+                action, action_str, action_error = _choose_action(obs)
                 obs = await env.step(action)
-                
-                # [STEP] log - EXACT FORMAT REQUIRED
-                print(f"[STEP] step={step_num} action={action_json} reward={obs.step_reward:.3f} score={obs.cumulative_reward:.3f} done={obs.done}")
-                
-                step_num += 1
-            
-            # Calculate duration
-            duration = (datetime.now() - start_time).total_seconds()
-            final_score = obs.cumulative_reward
-            
-            # [END] log - EXACT FORMAT REQUIRED
-            print(f"[END] task_id={task_id} final_score={final_score:.3f} steps={step_num} duration={duration:.2f}")
-            
-            return {
-                "task_id": task_id,
-                "difficulty": difficulty,
-                "final_score": final_score,
-                "steps": step_num,
-                "duration": duration
-            }
-    
-    except Exception as e:
-        # Log error and continue
-        duration = (datetime.now() - start_time).total_seconds()
-        print(f"[END] task_id={task_id} final_score=0.000 steps=0 duration={duration:.2f}")
-        print(f"Error running task {task_id}: {str(e)}")
-        return {
-            "task_id": task_id,
-            "difficulty": difficulty,
-            "final_score": 0.0,
-            "steps": 0,
-            "duration": duration,
-            "error": str(e)
-        }
+
+                steps += 1
+                done = obs.done
+                rewards.append(obs.step_reward)
+
+                last_action_error = action_error or _message_to_error(obs.message)
+                print(
+                    f"[STEP] step={steps} action={action_str} "
+                    f"reward={obs.step_reward:.2f} done={_bool_str(done)} "
+                    f"error={_format_error(last_action_error)}"
+                )
+
+            success = done
+    except Exception as exc:
+        print(f"inference_error task={task_id} error={_sanitize_single_line(str(exc))}", file=sys.stderr)
+        success = False
+    finally:
+        rewards_str = ",".join(f"{reward:.2f}" for reward in rewards)
+        print(f"[END] success={_bool_str(success)} steps={steps} rewards={rewards_str}")
+
+    return {
+        "task_id": task_id,
+        "success": success,
+        "steps": steps,
+        "rewards": rewards,
+    }
 
 
-async def main():
-    """Run inference on all tasks."""
-    print("=" * 80)
-    print("DataCleaningEnv - Baseline Inference")
-    print("=" * 80)
-    print(f"API Base URL: {API_BASE_URL}")
-    print(f"Model: {MODEL_NAME}")
-    print(f"HF Token: {'***' if HF_TOKEN else 'NOT SET'}")
-    print("=" * 80)
-    print()
-    
-    # Define tasks
-    tasks = [
-        ("easy_nulls", "easy"),
-        ("medium_formats", "medium"),
-        ("hard_multitable", "hard"),
-    ]
-    
-    results = []
-    
-    # Run each task
-    for task_id, difficulty in tasks:
-        print()
-        result = await run_task(task_id, difficulty)
-        results.append(result)
-        print()
-    
-    # Summary
-    print("=" * 80)
-    print("SUMMARY")
-    print("=" * 80)
-    for result in results:
-        print(f"{result['difficulty'].upper():8} | {result['task_id']:20} | Score: {result['final_score']:6.3f} | Steps: {result['steps']:2} | Time: {result['duration']:6.2f}s")
-    
-    # Calculate average
-    avg_score = sum(r['final_score'] for r in results) / len(results)
-    total_time = sum(r['duration'] for r in results)
-    print("=" * 80)
-    print(f"Average Score: {avg_score:.3f}")
-    print(f"Total Time: {total_time:.2f}s")
-    print("=" * 80)
+async def main() -> None:
+    for task_id in TASK_IDS:
+        await run_task(task_id=task_id, env_url=ENV_URL)
 
 
 if __name__ == "__main__":

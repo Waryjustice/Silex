@@ -192,7 +192,7 @@ Copy `.env.example` to `.env` and fill in your credentials:
 ```bash
 # Required for inference.py
 API_BASE_URL=https://api-inference.huggingface.co/v1
-MODEL_NAME=meta-llama/Llama-3.3-70B-Instruct
+MODEL_NAME=Qwen/Qwen2.5-7B-Instruct
 HF_TOKEN=your_hf_token_here
 ```
 
@@ -213,18 +213,18 @@ python inference.py
 
 **Expected Output:**
 ```
-[START] task_id=easy_nulls model=meta-llama/Llama-3.3-70B-Instruct timestamp=2026-04-07T17:52:24.039Z
-[STEP] step=0 action={"operation":"fill_missing","column":"age","value":"30"} reward=0.150 score=0.150 done=false
-[STEP] step=1 action={"operation":"drop_duplicates"} reward=0.200 score=0.350 done=false
-[STEP] step=2 action={"operation":"done"} reward=0.000 score=0.350 done=true
-[END] task_id=easy_nulls final_score=0.350 steps=3 duration=45.23
+[START] task=easy_nulls env=data-cleaning-env model=Qwen/Qwen2.5-7B-Instruct
+[STEP] step=1 action={"operation":"fill_missing","column":"age","value":"30"} reward=0.15 done=false error=null
+[STEP] step=2 action={"operation":"drop_duplicates"} reward=0.20 done=false error=null
+[STEP] step=3 action={"operation":"done"} reward=0.00 done=true error=null
+[END] success=true steps=3 rewards=0.15,0.20,0.00
 ```
 
 ---
 
 ## Baseline Performance
 
-Tested with `meta-llama/Llama-3.3-70B-Instruct`:
+Tested with `Qwen/Qwen2.5-7B-Instruct`:
 
 | Task | Difficulty | Score | Steps | Time |
 |------|------------|-------|-------|------|
@@ -355,7 +355,7 @@ openenv push --repo-id username/data-cleaning-env
 
 Once deployed, your Space will be available at:
 ```
-https://username-data-cleaning-env.hf.space
+https://huggingface.co/spaces/OrangeSorbet/Silex/
 ```
 
 ---
