@@ -1,3 +1,11 @@
+---
+license: mit
+title: DataCleaningEnv
+sdk: docker
+emoji: 🔥
+colorFrom: green
+colorTo: indigo
+---
 # DataCleaningEnv 🧹
 
 A real-world data cleaning environment for training and evaluating AI agents. Part of the OpenEnv ecosystem.
