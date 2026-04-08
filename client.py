@@ -59,7 +59,10 @@ class DataCleaningEnvClient:
             json=request.model_dump()
         )
         response.raise_for_status()
-        return CleaningObservation(**response.json())
+        data = response.json()
+        if isinstance(data, dict) and "observation" in data:
+            data = data["observation"]
+        return CleaningObservation(**data)
     
     async def step(self, action: CleaningAction) -> CleaningObservation:
         """
@@ -76,10 +79,13 @@ class DataCleaningEnvClient:
         
         response = await self.client.post(
             f"{self.base_url}/step",
-            json=action.model_dump()
+            json={"action": action.model_dump()}
         )
         response.raise_for_status()
-        return CleaningObservation(**response.json())
+        data = response.json()
+        if isinstance(data, dict) and "observation" in data:
+            data = data["observation"]
+        return CleaningObservation(**data)
     
     async def get_state(self) -> CleaningState:
         """

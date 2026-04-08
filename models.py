@@ -82,6 +82,17 @@ class CleaningState(BaseModel):
 class ResetRequest(BaseModel):
     """Request to reset the environment."""
     
-    task_id: str = Field(..., description="Task ID to load (e.g., 'easy_nulls', 'medium_formats', 'hard_multitable')")
+    task_id: str = Field(
+        "easy_nulls",
+        description="Task ID to load (defaults to 'easy_nulls' when omitted)"
+    )
     difficulty: Optional[Literal["easy", "medium", "hard"]] = Field(None, description="Difficulty level (inferred from task_id if not provided)")
     seed: Optional[int] = Field(None, description="Random seed for reproducibility")
+
+
+class EnvResponse(BaseModel):
+    """OpenEnv-style response wrapper."""
+    
+    observation: dict = Field(..., description="Serialized observation payload")
+    reward: Optional[float] = Field(None, description="Reward for the last action")
+    done: bool = Field(..., description="Whether the episode is complete")
