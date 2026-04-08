@@ -1,10 +1,17 @@
 """FastAPI server for DataCleaningEnv."""
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from pydantic import ValidationError
 
-from models import CleaningAction, CleaningObservation, CleaningState, ResetRequest
+from models import (
+    CleaningAction,
+    CleaningObservation,
+    CleaningState,
+    EnvResponse,
+    ResetRequest,
+)
 from server.environment import DataCleaningEnvironment
 
 
@@ -50,41 +57,46 @@ def health_check():
     }
 
 
-@app.post("/reset", response_model=CleaningObservation)
-def reset(request: ResetRequest):
+@app.post("/reset", response_model=EnvResponse)
+def reset(request: ResetRequest | None = Body(default=None)):
     """
     Reset the environment with a new task.
     
     Args:
-        request: Reset request with task_id and optional difficulty
+        request: Optional reset request with task_id and optional difficulty
         
     Returns:
-        Initial observation
+        Initial observation wrapped in OpenEnv response shape
     """
     global env_instance
     
     try:
+        req = request or ResetRequest()
         env_instance = DataCleaningEnvironment(
-            task_id=request.task_id,
-            difficulty=request.difficulty,
+            task_id=req.task_id,
+            difficulty=req.difficulty,
             max_steps=20
         )
         observation = env_instance.reset()
-        return observation
+        return EnvResponse(
+            observation=observation.model_dump(),
+            reward=None,
+            done=observation.done
+        )
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to reset environment: {str(e)}")
 
 
-@app.post("/step", response_model=CleaningObservation)
-def step(action: CleaningAction):
+@app.post("/step", response_model=EnvResponse)
+def step(payload: dict = Body(...)):
     """
     Take a step in the environment.
     
     Args:
-        action: Cleaning action to apply
+        payload: Either direct action payload or OpenEnv style {"action": {...}}
         
     Returns:
-        Observation after applying the action
+        Observation wrapped in OpenEnv response shape
     """
     global env_instance
     
@@ -92,8 +104,17 @@ def step(action: CleaningAction):
         raise HTTPException(status_code=400, detail="Environment not initialized. Call /reset first.")
     
     try:
+        # Support both direct body {"operation": ...} and wrapped {"action": {...}}
+        action_payload = payload.get("action", payload)
+        action = CleaningAction.model_validate(action_payload)
         observation = env_instance.step(action)
-        return observation
+        return EnvResponse(
+            observation=observation.model_dump(),
+            reward=observation.step_reward,
+            done=observation.done
+        )
+    except ValidationError as e:
+        raise HTTPException(status_code=422, detail=e.errors())
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to step environment: {str(e)}")
 
@@ -149,6 +170,16 @@ def list_tasks():
                 "max_steps": 20
             }
         ]
+    }
+
+
+@app.get("/schema")
+def get_schema():
+    """Return action/observation/state JSON schemas."""
+    return {
+        "action": CleaningAction.model_json_schema(),
+        "observation": CleaningObservation.model_json_schema(),
+        "state": CleaningState.model_json_schema()
     }
 
 

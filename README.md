@@ -7,7 +7,7 @@ colorFrom: green
 colorTo: indigo
 pinned: false
 short_description: A real-world data cleaning environment for training and eval
-app_file: inference.py
+app_file: app.py
 ---
 # DataCleaningEnv 🧹
 
