@@ -5,6 +5,9 @@ sdk: docker
 emoji: 🔥
 colorFrom: green
 colorTo: indigo
+pinned: false
+short_description: A real-world data cleaning environment for training and eval
+app_file: inference.py
 ---
 # DataCleaningEnv 🧹
 
