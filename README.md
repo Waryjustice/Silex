@@ -224,11 +224,7 @@ python inference.py
 
 **Expected Output:**
 ```
-<<<<<<< HEAD
-[START] task=easy_nulls env=data-cleaning-env model=Qwen/Qwen2.5-7B-Instruct
-=======
 [START] task=easy_nulls env=data-cleaning-env model=meta-llama/Llama-3.3-70B-Instruct
->>>>>>> f9ef5e8bb7ed2191863e294a700a3aece54256a3
 [STEP] step=1 action={"operation":"fill_missing","column":"age","value":"30"} reward=0.15 done=false error=null
 [STEP] step=2 action={"operation":"drop_duplicates"} reward=0.20 done=false error=null
 [STEP] step=3 action={"operation":"done"} reward=0.00 done=true error=null
