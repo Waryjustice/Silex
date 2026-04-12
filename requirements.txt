@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 pydantic
+openenv-core[core]>=0.2.0
 openai
 pandas
 numpy
