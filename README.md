@@ -196,7 +196,7 @@ MODEL_NAME=meta-llama/Llama-3.3-70B-Instruct
 HF_TOKEN=your_hf_token_here
 ```
 
-**CRITICAL**: `HF_TOKEN` has NO default and must be provided.
+**CRITICAL**: `HF_TOKEN` has NO default for real model inference. If missing, `inference.py` now degrades safely (prints episode end logs with error details) instead of crashing.
 
 ---
 

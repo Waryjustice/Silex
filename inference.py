@@ -11,13 +11,20 @@ import asyncio
 import json
 import os
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 from dotenv import load_dotenv
-from openai import OpenAI
 
 from client import DataCleaningEnvClient
 from models import CleaningAction, CleaningObservation
+
+try:
+    from openai import OpenAI
+except Exception as exc:  # pragma: no cover - optional dependency fallback
+    OpenAI = None
+    OPENAI_IMPORT_ERROR = str(exc)
+else:
+    OPENAI_IMPORT_ERROR = None
 
 # Load environment variables
 load_dotenv()
@@ -29,7 +36,12 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 
 # Optional runtime controls
 BENCHMARK_NAME = os.getenv("BENCHMARK_NAME", "data-cleaning-env")
-ENV_URL = os.getenv("ENV_URL", "http://localhost:7860")
+ENV_URL = (
+    os.getenv("ENV_URL")
+    or os.getenv("OPENENV_ENV_URL")
+    or os.getenv("OPENENV_URL")
+    or "http://localhost:7860"
+)
 MAX_STEPS = int(os.getenv("MAX_STEPS", "20"))
 TASK_IDS = [
     task.strip()
@@ -37,11 +49,18 @@ TASK_IDS = [
     if task.strip()
 ]
 
-if HF_TOKEN is None:
-    raise ValueError("HF_TOKEN environment variable is required")
+def _init_llm_client() -> tuple[Optional[Any], Optional[str]]:
+    if OpenAI is None:
+        return None, f"openai import failed: {OPENAI_IMPORT_ERROR}"
+    if not HF_TOKEN:
+        return None, "HF_TOKEN environment variable is required"
+    try:
+        return OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN), None
+    except Exception as exc:
+        return None, str(exc)
 
-# OpenAI client for all LLM calls
-client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+
+llm_client, llm_init_error = _init_llm_client()
 
 # System prompt for the LLM
 SYSTEM_PROMPT = """You are a data cleaning agent. You receive a dataset preview and a list of data quality issues.
@@ -104,8 +123,12 @@ def _build_user_prompt(obs: CleaningObservation) -> str:
 
 
 def _choose_action(obs: CleaningObservation) -> tuple[CleaningAction, str, Optional[str]]:
+    if llm_client is None:
+        fallback_action = CleaningAction(operation="done")
+        return fallback_action, _action_to_str(fallback_action), llm_init_error
+
     try:
-        response = client.chat.completions.create(
+        response = llm_client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
@@ -173,4 +196,7 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except Exception as exc:
+        print(f"inference_fatal error={_sanitize_single_line(str(exc))}", file=sys.stderr)
