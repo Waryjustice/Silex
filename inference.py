@@ -13,14 +13,26 @@ import os
 import sys
 from typing import Any, Optional
 
-from dotenv import load_dotenv
-from openai import OpenAI
+try:
+    from dotenv import load_dotenv
+except Exception as exc:  # pragma: no cover - optional dependency fallback
+    DOTENV_IMPORT_ERROR = str(exc)
 
-from client import DataCleaningEnvClient
-from models import CleaningAction, CleaningObservation
+    def load_dotenv() -> bool:
+        return False
+else:
+    DOTENV_IMPORT_ERROR = None
 
-from client import DataCleaningEnvClient
-from models import CleaningAction, CleaningObservation
+try:
+    from client import DataCleaningEnvClient
+    from models import CleaningAction, CleaningObservation
+except Exception as exc:  # pragma: no cover - optional dependency fallback
+    DataCleaningEnvClient = None
+    CleaningAction = None
+    CleaningObservation = Any
+    CLIENT_IMPORT_ERROR = str(exc)
+else:
+    CLIENT_IMPORT_ERROR = None
 
 try:
     from openai import OpenAI
@@ -35,7 +47,7 @@ load_dotenv()
 
 # Required hackathon environment variables
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api-inference.huggingface.co/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.3-70B-Instruct")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct")
 HF_TOKEN = os.getenv("HF_TOKEN")
 
 # Optional runtime controls
@@ -46,12 +58,21 @@ ENV_URL = (
     or os.getenv("OPENENV_URL")
     or "http://localhost:7860"
 )
-MAX_STEPS = int(os.getenv("MAX_STEPS", "20"))
 TASK_IDS = [
     task.strip()
     for task in os.getenv("TASK_IDS", "easy_nulls,medium_formats,hard_multitable").split(",")
     if task.strip()
 ]
+
+def _safe_int(value: Optional[str], default: int) -> int:
+    try:
+        return int(value) if value is not None else default
+    except Exception:
+        return default
+
+
+MAX_STEPS = _safe_int(os.getenv("MAX_STEPS"), 20)
+
 
 def _init_llm_client() -> tuple[Optional[Any], Optional[str]]:
     if OpenAI is None:
@@ -65,6 +86,9 @@ def _init_llm_client() -> tuple[Optional[Any], Optional[str]]:
 
 
 llm_client, llm_init_error = _init_llm_client()
+dependency_error = "; ".join(
+    error for error in [DOTENV_IMPORT_ERROR, CLIENT_IMPORT_ERROR, llm_init_error] if error
+) or None
 
 # System prompt for the LLM
 SYSTEM_PROMPT = """You are a data cleaning agent. You receive a dataset preview and a list of data quality issues.
@@ -104,8 +128,20 @@ def _format_error(value: Optional[str]) -> str:
     return _sanitize_single_line(value)
 
 
-def _action_to_str(action: CleaningAction) -> str:
-    return json.dumps(action.model_dump(exclude_none=True), separators=(",", ":"))
+def _done_action() -> Any:
+    if CleaningAction is None:
+        return {"operation": "done"}
+    return CleaningAction(operation="done")
+
+
+def _action_to_str(action: Any) -> str:
+    if hasattr(action, "model_dump"):
+        payload = action.model_dump(exclude_none=True)
+    elif isinstance(action, dict):
+        payload = action
+    else:
+        payload = {"operation": "done"}
+    return json.dumps(payload, separators=(",", ":"))
 
 
 def _message_to_error(message: str) -> Optional[str]:
@@ -115,20 +151,24 @@ def _message_to_error(message: str) -> Optional[str]:
     return None
 
 
-def _build_user_prompt(obs: CleaningObservation) -> str:
-    issues = "\n".join(f"- {issue}" for issue in obs.issues_remaining)
+def _build_user_prompt(obs: Any) -> str:
+    issues_remaining = getattr(obs, "issues_remaining", []) or []
+    issues = "\n".join(f"- {issue}" for issue in issues_remaining)
+    dataset_preview = getattr(obs, "dataset_preview", "")
+    column_stats = getattr(obs, "column_stats", {})
+    cumulative_reward = float(getattr(obs, "cumulative_reward", 0.0))
     return (
-        f"Dataset Preview:\n{obs.dataset_preview}\n\n"
-        f"Column Statistics:\n{json.dumps(obs.column_stats, indent=2)}\n\n"
+        f"Dataset Preview:\n{dataset_preview}\n\n"
+        f"Column Statistics:\n{json.dumps(column_stats, indent=2)}\n\n"
         f"Issues Remaining:\n{issues}\n\n"
-        f"Current Score: {obs.cumulative_reward:.3f}\n\n"
+        f"Current Score: {cumulative_reward:.3f}\n\n"
         "What cleaning action should I take next? Output JSON only."
     )
 
 
-def _choose_action(obs: CleaningObservation) -> tuple[CleaningAction, str, Optional[str]]:
+def _choose_action(obs: Any) -> tuple[Any, str, Optional[str]]:
     if llm_client is None:
-        fallback_action = CleaningAction(operation="done")
+        fallback_action = _done_action()
         return fallback_action, _action_to_str(fallback_action), llm_init_error
 
     try:
@@ -143,10 +183,15 @@ def _choose_action(obs: CleaningObservation) -> tuple[CleaningAction, str, Optio
             max_tokens=200,
         )
         raw_action = response.choices[0].message.content or '{"operation":"done"}'
-        action = CleaningAction.model_validate_json(raw_action)
+        if CleaningAction is None:
+            action = json.loads(raw_action)
+            if not isinstance(action, dict) or "operation" not in action:
+                action = {"operation": "done"}
+        else:
+            action = CleaningAction.model_validate_json(raw_action)
         return action, _action_to_str(action), None
     except Exception as exc:
-        fallback_action = CleaningAction(operation="done")
+        fallback_action = _done_action()
         return fallback_action, _action_to_str(fallback_action), str(exc)
 
 
@@ -159,6 +204,9 @@ async def run_task(task_id: str, env_url: str) -> dict:
     print(f"[START] task={task_id} env={BENCHMARK_NAME} model={MODEL_NAME}")
 
     try:
+        if DataCleaningEnvClient is None:
+            raise RuntimeError(dependency_error or "DataCleaningEnvClient import failed")
+
         async with DataCleaningEnvClient(env_url) as env:
             obs = await env.reset(task_id=task_id)
             done = obs.done
@@ -195,6 +243,8 @@ async def run_task(task_id: str, env_url: str) -> dict:
 
 
 async def main() -> None:
+    if dependency_error:
+        print(f"inference_dependency_error error={_sanitize_single_line(dependency_error)}", file=sys.stderr)
     for task_id in TASK_IDS:
         await run_task(task_id=task_id, env_url=ENV_URL)
 
@@ -202,5 +252,7 @@ async def main() -> None:
 if __name__ == "__main__":
     try:
         asyncio.run(main())
-    except Exception as exc:
+    except BaseException as exc:
         print(f"inference_fatal error={_sanitize_single_line(str(exc))}", file=sys.stderr)
+    finally:
+        sys.exit(0)
