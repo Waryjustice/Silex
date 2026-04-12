@@ -5,17 +5,6 @@ import numpy as np
 from typing import Tuple
 
 
-def _to_open_unit_interval(value: float) -> float:
-    """
-    Clamp score to strict open interval (0, 1) with 3-decimal output.
-    """
-    if not np.isfinite(value):
-        value = 0.001
-    value = float(value)
-    value = min(0.999, max(0.001, value))
-    return round(value, 3)
-
-
 def grade_easy(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> float:
     """
     Grade the easy_nulls task.
@@ -58,7 +47,7 @@ def grade_easy(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> float
         shape_score = max(0.0, 1.0 - (row_diff / ground_truth_df.shape[0]))
     scores.append(shape_score)
     
-    return _to_open_unit_interval(sum(scores) / len(scores))
+    return round(sum(scores) / len(scores), 3)
 
 
 def grade_medium(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> float:
@@ -119,7 +108,7 @@ def grade_medium(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> flo
     weights = [0.3, 0.3, 0.2, 0.2]
     weighted_score = sum(s * w for s, w in zip(scores, weights))
     
-    return _to_open_unit_interval(weighted_score)
+    return round(weighted_score, 3)
 
 
 def grade_hard(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> float:
@@ -195,7 +184,7 @@ def grade_hard(cleaned_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> float
         hidden_null_score = 0.0
     scores.append(hidden_null_score)
     
-    return _to_open_unit_interval(sum(scores) / len(scores))
+    return round(sum(scores) / len(scores), 3)
 
 
 def get_grader(task_id: str):
